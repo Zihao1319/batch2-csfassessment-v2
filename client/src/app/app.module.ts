@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { View1Component } from './components/view1.component';
 import { View0Component } from './components/view0.component';
 import { View2Component } from './components/view2.component';
+import { MaterialModule } from 'src/material.module';
+import { UploadService } from './services/upload.service';
 
 @NgModule({
   declarations: [AppComponent, View1Component, View0Component, View2Component],
@@ -18,8 +20,9 @@ import { View2Component } from './components/view2.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MaterialModule,
   ],
-  providers: [],
+  providers: [UploadService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

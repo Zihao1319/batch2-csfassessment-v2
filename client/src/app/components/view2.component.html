@@ -1,1 +1,28 @@
-<p>view2 works!</p>
+<div class="box">
+  <div *ngIf="!notFound">
+    <div>
+      <div>
+        <h2>{{ archive.title }}</h2>
+      </div>
+      <br />
+      <div>
+        <span>by {{ archive.name }} on XXX </span>
+      </div>
+      <br />
+      <div>
+        <span>{{ archive.comments }}</span>
+      </div>
+      <div *ngFor="let url of urls">
+        <img src="{{ url }}" alt="no name" width="300px" />
+      </div>
+      <br />
+      <div>
+        <button mat-button-raised type="button" (click)="back()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="notFound">
+  <span>Movies not found</span>
+</div>

@@ -1,1 +1,43 @@
-<p>view1 works!</p>
+<div class="box">
+  <form [formGroup]="form" (ngSubmit)="upload()">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" formControlName="name" />
+    </div>
+    <br />
+    <div>
+      <label for="title">Title:</label>
+      <input type="text" formControlName="title" />
+    </div>
+    <br />
+    <div>
+      <label for="comments">Comments:</label>
+      <textarea
+        type="text"
+        cols="30"
+        rows="5"
+        formControlName="comments"
+      ></textarea>
+    </div>
+    <br />
+    <div>
+      <label for="files">Archive:</label>
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        formControlName="file"
+        #files
+      />
+    </div>
+    <br />
+    <!-- <div>
+      <label for="files">Zip:</label>
+      <input type="file" accept=".zip" formControlName="file" #files />
+    </div> -->
+    <div>
+      <button type="button" (click)="back()">Cancel</button>
+      <button type="submit" [disabled]="this.form.invalid">Submit</button>
+    </div>
+  </form>
+</div>

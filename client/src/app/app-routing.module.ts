@@ -7,8 +7,7 @@ import { View2Component } from './components/view2.component';
 const routes: Routes = [
   { path: '', component: View0Component },
   { path: 'comment', component: View1Component },
-  { path: 'list', component: View2Component },
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+  { path: 'list/:id', component: View2Component },
 ];
 
 @NgModule({
