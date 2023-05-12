@@ -2,9 +2,11 @@ package ibf2022.batch2.csf.backend.models;
 
 import java.io.Serializable;
 import java.io.StringReader;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -18,7 +20,7 @@ public class Archive implements Serializable {
 
     private String bundleId;
     private String title;
-    private Date date;
+    private LocalDate date;
     private String name;
     private String comments;
     private List<String> urls;
@@ -39,11 +41,11 @@ public class Archive implements Serializable {
         this.title = title;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -78,7 +80,7 @@ public class Archive implements Serializable {
         d.put("title", a.getTitle());
         d.put("urls", a.getUrls());
         d.put("comments", a.getComments());
-        // d.put("date", a.getDate());
+        d.put("date", a.getDate());
         return d;
     }
 
@@ -91,6 +93,7 @@ public class Archive implements Serializable {
         Archive archive = new Archive();
         archive.setBundleId(j.getString("bundle_id"));
         archive.setComments(j.getString("comments"));
+
         // archive.setDate(Date.valueOf(j.getString("date")));
         archive.setName(j.getString("name"));
         archive.setTitle(j.getString("title"));
@@ -107,7 +110,13 @@ public class Archive implements Serializable {
         Archive archive = new Archive();
         archive.setBundleId(d.getString("bundle_id"));
         archive.setComments(d.getString("comments"));
-        // archive.setDate(Date.valueOf(d.getDate("date").toString()));
+
+        Date date = d.getDate("date");
+
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        LocalDate localDate = localDateTime.toLocalDate();
+        archive.setDate(localDate);
+
         archive.setName(d.getString("name"));
         archive.setTitle(d.getString("title"));
 

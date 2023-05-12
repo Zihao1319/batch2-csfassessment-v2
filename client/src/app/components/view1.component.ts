@@ -35,18 +35,28 @@ export class View1Component implements OnInit {
     });
   }
 
+  // async upload() {
+  //   await this.uploadSvc.uploadFiles(this.form, this.filesElem).subscribe({
+  //     next: (id) => {
+  //       console.log(id);
+  //       this.bundleId = id;
+  //       console.log(this.bundleId);
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //       alert(error);
+  //     },
+  //     complete: () => {
+  //       this.router.navigate(['/list/' + this.bundleId]);
+  //     },
+  //   });
+  // }
+
   async upload() {
-    await this.uploadSvc.uploadFiles(this.form, this.filesElem).subscribe({
-      next: (id) => {
-        console.log(id);
-        this.bundleId = id;
-        this.router.navigate(['/list', this.bundleId]);
-      },
-      error: (error) => {
-        console.log(error);
-        alert(error);
-      },
-      complete: () => {},
+    await this.uploadSvc.uploadFiles(this.form, this.filesElem).then((id) => {
+      console.log(id);
+      this.bundleId = id['bundleId'];
+      this.router.navigate(['/list', this.bundleId]);
     });
   }
 

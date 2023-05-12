@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ibf2022.batch2.csf.backend.models.Archive;
 import ibf2022.batch2.csf.backend.services.ArchiveService;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
@@ -76,7 +77,7 @@ public class UploadController {
 
 	}
 
-	@GetMapping(path = "/all")
+	@GetMapping(path = "/search/all")
 	public ResponseEntity<String> getAll() {
 
 		List<Archive> archivesInfo = arcSvc.getAll();
@@ -84,15 +85,18 @@ public class UploadController {
 		JsonArrayBuilder arr = Json.createArrayBuilder();
 
 		for (Archive a : archivesInfo) {
+			System.out.printf(">>>>>>>a: %s\n", a.toString());
 			JsonObject json = Json.createObjectBuilder()
 					.add("title", a.getTitle())
 					.add("name", a.getName())
+					.add("date", a.getDate().toString())
 					.build();
 			arr.add(json);
 		}
+		JsonArray jArr = arr.build();
 
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(arr.toString());
+				.body(jArr.toString());
 
 	}
 

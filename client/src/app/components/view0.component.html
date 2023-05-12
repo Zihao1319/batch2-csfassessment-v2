@@ -1,11 +1,15 @@
 <div>
   <h1>Photo storage</h1>
-  <div *ngFor="let i of data">
+  <div>
     <div>
-      {{ i.title }}
+      <button type="button" (click)="next()">Upload</button>
     </div>
-    <div>
-      {{ i.name }}
-    </div>
+    <table>
+      <tr *ngFor="let i of data">
+        <td>{{ i.title }}</td>
+        <td>{{ i.name }}</td>
+        <td>{{ i.date }}</td>
+      </tr>
+    </table>
   </div>
 </div>

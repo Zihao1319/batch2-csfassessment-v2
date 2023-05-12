@@ -67,7 +67,6 @@ public class ArchiveRepository {
 		Query query = Query.query(criterial);
 
 		Document d = mongoTemplate.findOne(query, Document.class, DB_COLLECTIONS);
-
 		Archive a = Archive.toArchive(d);
 
 		return a;
@@ -83,7 +82,7 @@ public class ArchiveRepository {
 	 * db.archives.find({}).sort({"date": -1, "title": 1})
 	 */
 
-	public List<Archive> getBundles() {
+	public List<Document> getBundles() {
 
 		Criteria criterial = Criteria.where("bundle_id").exists(true);
 
@@ -92,10 +91,9 @@ public class ArchiveRepository {
 						Sort.by(Direction.DESC, "date")
 								.and(Sort.by(Direction.ASC, "title")));
 
-		query.fields().include("title", "date").exclude("_id");
-		List<Archive> archives = mongoTemplate.find(query, Document.class, DB_COLLECTIONS).stream()
-				.map(v -> Archive.toArchive(v))
-				.toList();
+		query.fields().include("title", "name", "date").exclude("_id");
+		List<Document> archives = mongoTemplate.find(query, Document.class, DB_COLLECTIONS);
+		
 
 		return archives;
 	}

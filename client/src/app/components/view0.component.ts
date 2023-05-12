@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { Archive } from '../models/archive';
 import { UploadService } from '../services/upload.service';
 
@@ -9,12 +10,19 @@ import { UploadService } from '../services/upload.service';
   styleUrls: ['./view0.component.css'],
 })
 export class View0Component implements OnInit {
-  data!: any
+  data!: any;
   res$!: Subscription;
 
-  constructor(private uploadSvc: UploadService) {}
+  constructor(private uploadSvc: UploadService, private router: Router) {}
 
   ngOnInit(): void {
-    this.data = this.uploadSvc.getAllUploads;
+    this.uploadSvc.getAllUploads().then((res) => {
+      this.data = res;
+      console.log(this.data);
+    });
+  }
+
+  next() {
+    this.router.navigate(['/comment']);
   }
 }

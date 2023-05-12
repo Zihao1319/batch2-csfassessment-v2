@@ -1,7 +1,7 @@
 export interface Archive {
   bundleId: string;
   title: string;
-  // date: Date;
+  date: string;
   name: string;
   comments: string;
   urls: [];

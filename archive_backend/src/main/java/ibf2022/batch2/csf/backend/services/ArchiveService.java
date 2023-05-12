@@ -1,13 +1,16 @@
 package ibf2022.batch2.csf.backend.services;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,11 +54,11 @@ public class ArchiveService {
         a.setComments(comments);
         a.setTitle(title);
         a.setName(name);
-        Date date = Date.valueOf(LocalDate.now());
+        LocalDate date = LocalDate.now();
         a.setDate(date);
         a.setUrls(urls);
 
-        arcSvc.recordBundle(a);
+        arcRepo.recordBundle(a);
 
         System.out.printf(">>>>>>>>>%s\n", bundleId);
 
@@ -73,7 +76,7 @@ public class ArchiveService {
                     .add("name", a.getName())
                     .add("title", a.getTitle())
                     .add("comments", a.getComments())
-                    // .add("date", a.getDate().toString())
+                    .add("date", a.getDate().toString())
                     .add("urls", a.getUrls().toString())
                     .build();
             return json;
@@ -83,7 +86,26 @@ public class ArchiveService {
     }
 
     public List<Archive> getAll() {
-        return this.arcRepo.getBundles();
+
+        List<Document> docs = this.arcRepo.getBundles();
+        System.out.printf(">>>>docs:%s\n", docs.toString());
+        List<Archive> archives = new LinkedList<>();
+
+        for (Document d : docs) {
+
+            Archive a = new Archive();
+            a.setTitle(d.getString("title"));
+            a.setName(d.getString("name"));
+            Date date = d.getDate("date");
+
+            LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+            LocalDate localDate = localDateTime.toLocalDate();
+            a.setDate(localDate);
+            archives.add(a);
+        }
+
+        return archives;
+
     }
 
     // public String uploadFile(MultipartFile imageFile)

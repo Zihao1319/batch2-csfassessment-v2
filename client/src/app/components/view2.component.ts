@@ -26,7 +26,7 @@ export class View2Component implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.params$ = this.activatedRoute.params.subscribe({
       next: async (params) => {
-        this.bundleId = params['id'];
+        this.bundleId = params['bundleId'];
         console.log(this.bundleId);
 
         await this.uploadSvc.getOneUpload(this.bundleId).subscribe({

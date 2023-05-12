@@ -10,9 +10,11 @@ export class UploadService {
   imageFiles: any = [];
   constructor(private httpClient: HttpClient) {}
 
-  private IMAGE_POST_API: string = 'http://localhost:8080/api/upload';
+  private IMAGE_POST_API: string =
+    'automatic-yak-production.up.railway.app/api/upload';
 
-  private IMAGE_GET_API: string = 'http://localhost:8080/api/search';
+  private IMAGE_GET_API: string =
+    'automatic-yak-production.up.railway.app/api/search';
 
   uploadFiles(form: FormGroup, imageFileElem: ElementRef) {
     console.log('upload in progress');
@@ -39,7 +41,9 @@ export class UploadService {
       formData.append('files', images[i]);
     }
 
-    return this.httpClient.post<any>(this.IMAGE_POST_API, formData);
+    return lastValueFrom(
+      this.httpClient.post<any>(this.IMAGE_POST_API, formData)
+    );
   }
 
   getOneUpload(id: string) {
@@ -47,7 +51,7 @@ export class UploadService {
     return this.httpClient.get<any>(this.IMAGE_GET_API + '/' + id);
   }
 
-  getAllUploads(): Promise<any> {
+  getAllUploads() {
     return lastValueFrom(this.httpClient.get<any>(this.IMAGE_GET_API + '/all'));
   }
 }
